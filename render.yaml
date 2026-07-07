@@ -1,0 +1,13 @@
+# Render Blueprint — نشر تلقائي لمنصّة سند
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: sanad
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    envVars:
+      # غيّري كلمة مرور الأدمن بعد أول نشر
+      - key: ADMIN_PASSWORD
+        sync: false

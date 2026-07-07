@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم سند — الأدمن</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal-900:#0d3b3e; --teal-700:#12595e; --teal-500:#1a8a86; --teal-100:#d5ebe8;
+  --sand:#f6f3ec; --amber:#e0a458; --coral:#d96b57; --green:#2f9e77;
+  --ink:#1c2b2b; --muted:#5f7373; --white:#ffffff; --line:#e2ded4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Tajawal',sans-serif;background:var(--sand);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:var(--teal-900);color:#eaf4f2;position:sticky;top:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.15rem;color:#fff}
+.brand .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--teal-500),var(--teal-700));display:grid;place-items:center;flex-shrink:0}
+.brand .mark svg{width:20px;height:20px}
+.brand .sub{font-size:.72rem;font-weight:500;color:#a9cfcb;letter-spacing:.5px}
+#logoutBtn{background:#ffffff1a;border:1px solid #ffffff33;color:#fff;padding:8px 16px;border-radius:9px;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s}
+#logoutBtn:hover{background:#ffffff2e}
+
+/* login */
+.login-shell{min-height:100vh;display:grid;place-items:center;padding:24px}
+.login-card{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 20px 50px #0d3b3e14}
+.login-card .mark{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--teal-500),var(--teal-700));display:grid;place-items:center;margin:0 auto 18px}
+.login-card .mark svg{width:28px;height:28px}
+.login-card h1{text-align:center;font-size:1.5rem;font-weight:900;color:var(--teal-900);margin-bottom:6px}
+.login-card p.hint{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:26px}
+
+label{display:block;font-weight:700;font-size:.9rem;color:var(--teal-900);margin-bottom:7px}
+input,textarea,select{width:100%;font-family:inherit;font-size:.98rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;background:var(--sand);color:var(--ink);margin-bottom:16px;transition:border-color .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--teal-500);background:#fff}
+textarea{resize:vertical;min-height:90px}
+.btn{background:var(--teal-700);color:#fff;border:none;padding:13px 22px;border-radius:11px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s,transform .15s;width:100%}
+.btn:hover{background:var(--teal-900)}
+.btn:active{transform:translateY(1px)}
+.btn.sm{width:auto;padding:8px 16px;font-size:.88rem;border-radius:9px}
+.btn.green{background:var(--green)}.btn.green:hover{background:#268363}
+.btn.coral{background:var(--coral)}.btn.coral:hover{background:#c25746}
+.btn.ghost{background:transparent;color:var(--teal-700);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:var(--sand);color:var(--teal-900)}
+
+/* app */
+.app{padding:34px 0 80px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;border-bottom:1px solid var(--line);padding-bottom:0}
+.tab{background:none;border:none;font-family:inherit;font-weight:700;font-size:.98rem;color:var(--muted);padding:12px 18px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;display:flex;align-items:center;gap:8px}
+.tab:hover{color:var(--teal-700)}
+.tab.active{color:var(--teal-900);border-bottom-color:var(--amber)}
+.tab .badge{background:var(--coral);color:#fff;font-size:.72rem;font-weight:800;min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center}
+.tab.active .badge{background:var(--teal-500)}
+
+.panel{display:none}.panel.active{display:block}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.panel-head h2{font-size:1.4rem;font-weight:900;color:var(--teal-900)}
+.panel-head .count{color:var(--muted);font-size:.92rem}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:14px}
+.card .meta{color:var(--muted);font-size:.86rem;margin-bottom:8px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.card .body{font-size:1.02rem;margin-bottom:14px;white-space:pre-wrap}
+.card .actions{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:var(--teal-100);color:var(--teal-700);font-size:.76rem;font-weight:700;padding:3px 11px;border-radius:999px}
+.card h3{font-size:1.1rem;font-weight:800;color:var(--teal-900);margin-bottom:6px}
+.card a.link{color:var(--teal-500);font-weight:700;font-size:.9rem;word-break:break-all}
+
+.empty{text-align:center;color:var(--muted);padding:60px 20px;background:var(--white);border:1px dashed var(--line);border-radius:16px}
+.empty svg{width:44px;height:44px;color:var(--teal-100);margin-bottom:12px}
+
+.form-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:26px}
+.form-card h3{font-size:1.1rem;font-weight:800;color:var(--teal-900);margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+th,td{text-align:right;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.94rem}
+th{background:var(--sand);font-weight:800;color:var(--teal-900);font-size:.85rem}
+tr:last-child td{border-bottom:none}
+
+/* toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--teal-900);color:#fff;padding:13px 24px;border-radius:12px;font-weight:700;font-size:.95rem;box-shadow:0 12px 30px #0d3b3e40;z-index:100;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);max-width:90vw}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.err{background:var(--coral)}
+.err-msg{color:var(--coral);font-size:.88rem;font-weight:700;margin-bottom:14px;min-height:1.2em;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login-shell" id="loginShell">
+  <form class="login-card" id="loginForm">
+    <div class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-9.03C1.32 9.24 2.4 6 5.5 6c1.9 0 3.1 1.2 3.9 2.4C10.2 7.2 11.4 6 13.3 6c3.1 0 4.18 3.24 2.83 5.97C18.8 16.65 12 21 12 21Z" stroke="#fff" stroke-width="1.6" fill="#ffffff26"/></svg></div>
+    <h1>لوحة تحكم سند</h1>
+    <p class="hint">سجّل دخولك لإدارة المحتوى</p>
+    <div class="err-msg" id="loginErr"></div>
+    <label for="email">البريد الإلكتروني</label>
+    <input type="email" id="email" value="admin@sanad.sa" autocomplete="username" required>
+    <label for="password">كلمة المرور</label>
+    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+    <button class="btn" type="submit">دخول</button>
+  </form>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app" class="app-root" style="display:none">
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-9.03C1.32 9.24 2.4 6 5.5 6c1.9 0 3.1 1.2 3.9 2.4C10.2 7.2 11.4 6 13.3 6c3.1 0 4.18 3.24 2.83 5.97C18.8 16.65 12 21 12 21Z" stroke="#fff" stroke-width="1.6" fill="#ffffff26"/></svg></span>
+        <div>سند — لوحة التحكم<div class="sub">إدارة المحتوى</div></div>
+      </div>
+      <button id="logoutBtn">تسجيل الخروج</button>
+    </div>
+  </header>
+
+  <div class="app" id="appBody">
+    <div class="wrap">
+      <div class="tabs">
+        <button class="tab active" data-tab="stories">القصص المنتظرة <span class="badge" id="storiesBadge" style="display:none">0</span></button>
+        <button class="tab" data-tab="papers">الأبحاث</button>
+        <button class="tab" data-tab="suggestions">الاقتراحات <span class="badge" id="sugBadge" style="display:none">0</span></button>
+        <button class="tab" data-tab="subscribers">المشتركون</button>
+      </div>
+
+      <!-- Stories -->
+      <div class="panel active" id="panel-stories">
+        <div class="panel-head"><h2>القصص المنتظرة للمراجعة</h2><span class="count" id="storiesCount"></span></div>
+        <div id="storiesList"></div>
+      </div>
+
+      <!-- Papers -->
+      <div class="panel" id="panel-papers">
+        <div class="form-card">
+          <h3>➕ إضافة بحث جديد</h3>
+          <form id="paperForm">
+            <label>العنوان *</label>
+            <input id="p_title" required>
+            <div class="grid2">
+              <div><label>المؤلفون</label><input id="p_authors"></div>
+              <div><label>المجلة / المصدر</label><input id="p_journal"></div>
+            </div>
+            <label>الملخّص</label>
+            <textarea id="p_abs"></textarea>
+            <label>الرابط (URL)</label>
+            <input id="p_url" type="url" placeholder="https://...">
+            <div class="grid2">
+              <div>
+                <label>المنطقة</label>
+                <select id="p_region"><option value="saudi">سعودي</option><option value="arab">عربي</option><option value="global">عالمي</option></select>
+              </div>
+              <div>
+                <label>السنة</label>
+                <input id="p_year" type="number" placeholder="2024">
+              </div>
+            </div>
+            <div class="grid2">
+              <div>
+                <label>الموضوع</label>
+                <select id="p_topic"><option value="clinical">سريري</option><option value="genetic">جيني</option><option value="treatment">علاج</option><option value="diagnosis">تشخيص</option></select>
+              </div>
+              <div>
+                <label>النوع</label>
+                <select id="p_type"><option value="sts">أنسجة رخوة (STS)</option><option value="rms">عضلي مخطط (RMS)</option><option value="bone">عظمي (Bone)</option></select>
+              </div>
+            </div>
+            <button class="btn" type="submit">حفظ البحث</button>
+          </form>
+        </div>
+        <div class="panel-head"><h2>الأبحاث المنشورة</h2><span class="count" id="papersCount"></span></div>
+        <div id="papersList"></div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="panel" id="panel-suggestions">
+        <div class="panel-head"><h2>الأبحاث المقترحة من الزوّار</h2><span class="count" id="sugCount"></span></div>
+        <div id="sugList"></div>
+      </div>
+
+      <!-- Subscribers -->
+      <div class="panel" id="panel-subscribers">
+        <div class="panel-head"><h2>قائمة المشتركين</h2><span class="count" id="subCount"></span></div>
+        <div id="subList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API = '/api';
+let token = localStorage.getItem('sanad_token') || '';
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+function toast(msg, isErr){
+  const t = $('#toast'); t.textContent = msg;
+  t.className = isErr ? 'err show' : 'show';
+  clearTimeout(t._t); t._t = setTimeout(() => t.className = t.className.replace('show','').trim(), 3000);
+}
+
+async function api(path, opts = {}){
+  opts.headers = Object.assign({'Content-Type':'application/json'}, opts.headers || {});
+  if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + path, opts);
+  if (res.status === 401 && token){ logout(); throw new Error('انتهت الجلسة، سجّل الدخول من جديد'); }
+  let data = null;
+  try { data = await res.json(); } catch(e){}
+  if (!res.ok) throw new Error((data && data.error) || 'حدث خطأ');
+  return data;
+}
+
+/* ---------- auth ---------- */
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('#loginErr').textContent = '';
+  try {
+    const d = await api('/admin/login', {method:'POST', body: JSON.stringify({Email:$('#email').value, Password:$('#password').value})});
+    token = d.token; localStorage.setItem('sanad_token', token);
+    showApp();
+  } catch(err){ $('#loginErr').textContent = err.message; }
+});
+$('#logoutBtn').addEventListener('click', logout);
+function logout(){ token=''; localStorage.removeItem('sanad_token'); $('#app').style.display='none'; $('#loginShell').style.display='grid'; }
+
+function showApp(){
+  $('#loginShell').style.display='none';
+  $('#app').style.display='block';
+  loadStories(); loadSuggestions(); // load badges up front
+}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const tab = t.dataset.tab;
+  $('#panel-'+tab).classList.add('active');
+  if (tab==='stories') loadStories();
+  if (tab==='papers') loadPapers();
+  if (tab==='suggestions') loadSuggestions();
+  if (tab==='subscribers') loadSubscribers();
+}));
+
+const emptyBox = msg => `<div class="empty"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg><div>${msg}</div></div>`;
+
+/* ---------- stories ---------- */
+async function loadStories(){
+  const box = $('#storiesList'); box.innerHTML = 'جارٍ التحميل…';
+  try {
+    const list = await api('/admin/stories/pending') || [];
+    const badge = $('#storiesBadge');
+    if (list.length){ badge.style.display='inline-grid'; badge.textContent=list.length; }
+    else badge.style.display='none';
+    $('#storiesCount').textContent = list.length ? `${list.length} قصة بانتظار المراجعة` : '';
+    if (!list.length){ box.innerHTML = emptyBox('لا توجد قصص منتظرة 🎉'); return; }
+    box.innerHTML = list.map(s => `
+      <div class="card" id="story-${s.id}">
+        <div class="meta"><span class="pill">${esc(s.initial||'؟')}</span><span>${esc(s.who||'غير معروف')}</span></div>
+        <div class="body">${esc(s.body)}</div>
+        <div class="actions">
+          <button class="btn sm green" onclick="setStory(${s.id},'approve')">✓ اعتماد</button>
+          <button class="btn sm coral" onclick="setStory(${s.id},'reject')">✕ رفض</button>
+        </div>
+      </div>`).join('');
+  } catch(err){ box.innerHTML = emptyBox(err.message); }
+}
+async function setStory(id, action){
+  try {
+    await api(`/admin/stories/${id}/${action}`, {method:'POST'});
+    toast(action==='approve' ? 'تم اعتماد القصة' : 'تم رفض القصة');
+    const el = $('#story-'+id); if (el) el.remove();
+    loadStories();
+  } catch(err){ toast(err.message, true); }
+}
+
+/* ---------- papers ---------- */
+async function loadPapers(){
+  const box = $('#papersList'); box.innerHTML = 'جارٍ التحميل…';
+  try {
+    const list = await api('/papers') || [];
+    $('#papersCount').textContent = `${list.length} بحث`;
+    if (!list.length){ box.innerHTML = emptyBox('لا توجد أبحاث بعد'); return; }
+    box.innerHTML = list.map(p => `
+      <div class="card" id="paper-${p.id}">
+        <h3>${esc(p.title)}</h3>
+        <div class="meta">
+          ${p.authors?`<span>${esc(p.authors)}</span>`:''}
+          ${p.year?`<span>${esc(p.year)}</span>`:''}
+          <span class="pill">${esc(p.region)}</span>
+          <span class="pill">${esc(p.type)}</span>
+        </div>
+        ${p.url?`<a class="link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.url)}</a>`:''}
+        <div class="actions" style="margin-top:12px">
+          <button class="btn sm coral" onclick="delPaper(${p.id})">🗑 حذف</button>
+        </div>
+      </div>`).join('');
+  } catch(err){ box.innerHTML = emptyBox(err.message); }
+}
+$('#paperForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const payload = {
+    title:$('#p_title').value, authors:$('#p_authors').value, journal:$('#p_journal').value,
+    abs:$('#p_abs').value, url:$('#p_url').value, region:$('#p_region').value,
+    topic:$('#p_topic').value, type:$('#p_type').value, year: parseInt($('#p_year').value)||0
+  };
+  try {
+    await api('/admin/papers', {method:'POST', body: JSON.stringify(payload)});
+    toast('تمت إضافة البحث');
+    e.target.reset();
+    loadPapers();
+  } catch(err){ toast(err.message, true); }
+});
+async function delPaper(id){
+  if (!confirm('حذف هذا البحث نهائيًا؟')) return;
+  try {
+    await api('/admin/papers/'+id, {method:'DELETE'});
+    toast('تم حذف البحث');
+    const el = $('#paper-'+id); if (el) el.remove();
+  } catch(err){ toast(err.message, true); }
+}
+
+/* ---------- suggestions ---------- */
+async function loadSuggestions(){
+  const box = $('#sugList'); if(box) box.innerHTML = 'جارٍ التحميل…';
+  try {
+    const list = await api('/admin/suggestions') || [];
+    const badge = $('#sugBadge');
+    if (list.length){ badge.style.display='inline-grid'; badge.textContent=list.length; }
+    else badge.style.display='none';
+    $('#sugCount').textContent = `${list.length} اقتراح`;
+    if (!box) return;
+    if (!list.length){ box.innerHTML = emptyBox('لا توجد اقتراحات'); return; }
+    box.innerHTML = list.map(s => `
+      <div class="card">
+        <h3>${esc(s.title)}</h3>
+        ${s.note?`<div class="body">${esc(s.note)}</div>`:''}
+        <div class="meta">
+          ${s.email?`<span>📧 ${esc(s.email)}</span>`:''}
+          ${s.url?`<a class="link" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a>`:''}
+        </div>
+      </div>`).join('');
+  } catch(err){ if(box) box.innerHTML = emptyBox(err.message); }
+}
+
+/* ---------- subscribers ---------- */
+async function loadSubscribers(){
+  const box = $('#subList'); box.innerHTML = 'جارٍ التحميل…';
+  try {
+    const list = await api('/admin/subscribers') || [];
+    $('#subCount').textContent = `${list.length} مشترك`;
+    if (!list.length){ box.innerHTML = emptyBox('لا يوجد مشتركون'); return; }
+    box.innerHTML = `<table><thead><tr><th>#</th><th>البريد الإلكتروني</th></tr></thead><tbody>${
+      list.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.email)}</td></tr>`).join('')
+    }</tbody></table>`;
+  } catch(err){ box.innerHTML = emptyBox(err.message); }
+}
+
+/* ---------- boot ---------- */
+if (token) showApp();
+</script>
+</body>
+</html>

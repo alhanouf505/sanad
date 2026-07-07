@@ -1,0 +1,27 @@
+# قاعدة البيانات (تُنشأ تلقائيًا من seed.json)
+backend/sanad.db
+backend/*.db-journal
+
+# Go
+backend/sanad.exe
+*.exe
+
+# Flutter / Dart
+mobile/build/
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/.pub-cache/
+mobile/.pub/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/ios/Pods/
+mobile/**/GeneratedPluginRegistrant.*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml

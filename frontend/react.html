@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سند الساركوما — نسخة React</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root{
+  --teal-900:#0d3b3e;--teal-700:#12595e;--teal-500:#1a8a86;--teal-100:#d5ebe8;
+  --sand:#f6f3ec;--amber:#e0a458;--coral:#d96b57;--ink:#1c2b2b;--muted:#5f7373;--white:#fff;--line:#e2ded4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--sand);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+section{padding:78px 0}
+.eyebrow{display:inline-block;color:var(--teal-500);font-weight:800;font-size:.85rem;letter-spacing:1px;margin-bottom:14px}
+.sec-title{font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:900;color:var(--teal-900);letter-spacing:-.4px;margin-bottom:16px}
+.sec-sub{color:var(--muted);font-size:1.1rem;max-width:60ch;margin-bottom:44px}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(246,243,236,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.25rem;color:var(--teal-900)}
+.brand .mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--teal-500),var(--teal-700));display:grid;place-items:center;flex-shrink:0}
+.brand .mark svg{width:22px;height:22px}
+.brand .badge{font-size:.6rem;background:var(--amber);color:#3a2a10;padding:2px 7px;border-radius:6px;font-weight:800;vertical-align:middle}
+.navlinks{display:flex;gap:30px;font-weight:500;font-size:.98rem}
+.navlinks a{color:var(--muted);transition:color .2s}
+.navlinks a:hover{color:var(--teal-700)}
+.nav-cta{background:var(--teal-700);color:#fff;padding:9px 20px;border-radius:9px;font-weight:700;font-size:.95rem;transition:background .2s}
+.nav-cta:hover{background:var(--teal-900)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 90% -10%,#16636680 0%,transparent 55%),linear-gradient(160deg,var(--teal-900) 0%,var(--teal-700) 100%);color:#eaf4f2;padding:96px 0 108px}
+.hero .ribbon{display:inline-flex;align-items:center;gap:9px;background:#ffffff1a;border:1px solid #ffffff33;padding:7px 16px;border-radius:999px;font-size:.9rem;font-weight:500;color:#cfeae6;margin-bottom:26px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.9rem);font-weight:900;line-height:1.18;letter-spacing:-.5px;margin-bottom:22px;color:#fff;max-width:15ch}
+.hero h1 .accent{color:var(--amber)}
+.hero p.lead{font-size:1.18rem;max-width:52ch;color:#c9e3e0;margin-bottom:36px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--amber);color:#3a2a10;padding:14px 28px;border-radius:11px;font-weight:800;font-size:1.02rem;transition:transform .15s,box-shadow .2s;box-shadow:0 8px 22px #e0a45840;border:none;font-family:inherit;cursor:pointer}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px #e0a45855}
+.btn-ghost{border:1.5px solid #ffffff44;color:#eaf4f2;padding:14px 26px;border-radius:11px;font-weight:700;transition:background .2s;background:none;font-family:inherit;cursor:pointer}
+.btn-ghost:hover{background:#ffffff14}
+.hero-stats{display:flex;gap:44px;margin-top:56px;flex-wrap:wrap;border-top:1px solid #ffffff22;padding-top:30px}
+.hero-stats .s .n{font-size:2.1rem;font-weight:900;color:#fff}
+.hero-stats .s .l{font-size:.92rem;color:#a9cfcb;max-width:20ch}
+
+/* types */
+.types{background:var(--sand)}
+.type-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.ttab{background:var(--white);border:1.5px solid var(--line);color:var(--muted);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.ttab.active{background:var(--teal-700);color:#fff;border-color:var(--teal-700)}
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.type-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .18s,box-shadow .2s,border-color .2s}
+.type-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px #12595e14;border-color:var(--teal-100)}
+.type-card .tag{display:inline-block;font-size:.75rem;font-weight:700;color:var(--teal-500);background:var(--teal-100);padding:4px 10px;border-radius:6px;margin-bottom:12px}
+.type-card h4{font-size:1.12rem;font-weight:800;color:var(--teal-900);margin-bottom:6px}
+.type-card p{color:var(--muted);font-size:.94rem}
+
+/* library */
+.research{background:linear-gradient(165deg,var(--teal-900),#0a2f31);color:#dff0ed}
+.research .sec-title{color:#fff}.research .eyebrow{color:var(--amber)}.research .sec-sub{color:#a9cfcb}
+.lib-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.lib-search{flex:1;min-width:260px;display:flex;align-items:center;gap:10px;background:#ffffff10;border:1px solid #ffffff26;border-radius:12px;padding:12px 16px}
+.lib-search input{flex:1;background:none;border:none;outline:none;color:#eaf4f2;font-family:inherit;font-size:1rem}
+.lib-search input::placeholder{color:#7ba9a5}
+.lib-count{color:#a9cfcb;font-size:.92rem;font-weight:500;white-space:nowrap}
+.filter-bank{background:#ffffff0a;border:1px solid #ffffff1a;border-radius:16px;padding:20px 22px;margin-bottom:28px;display:grid;gap:16px}
+.filter-group{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fg-label{color:#7ba9a5;font-size:.85rem;font-weight:700;min-width:56px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:#ffffff0f;border:1px solid #ffffff26;color:#c9e3e0;padding:7px 15px;border-radius:999px;font-family:inherit;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .18s}
+.chip:hover{background:#ffffff1c}
+.chip.active{background:var(--amber);color:#3a2a10;border-color:var(--amber)}
+.paper-list{display:grid;gap:14px;margin-bottom:30px}
+.paper{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:14px;padding:22px 24px;transition:background .2s,transform .15s,border-color .2s}
+.paper:hover{background:#ffffff15;transform:translateX(-3px);border-color:#ffffff33}
+.paper-top{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pill{font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:6px}
+.pill.region-saudi{background:#1a8a8633;color:#7fded8}
+.pill.region-arab{background:#e0a45833;color:#f0c88a}
+.pill.region-global{background:#ffffff1f;color:#c9e3e0}
+.pill.year{background:#ffffff14;color:#a9cfcb}
+.paper h4{color:#fff;font-size:1.1rem;font-weight:700;line-height:1.5;margin-bottom:8px}
+.paper .authors{color:#9dc4c0;font-size:.9rem;margin-bottom:8px}
+.paper .abs{color:#a9cfcb;font-size:.94rem;margin-bottom:14px}
+.paper-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #ffffff14;padding-top:12px}
+.paper .journal{color:#7ba9a5;font-size:.85rem;font-style:italic}
+.paper .link{display:inline-flex;align-items:center;gap:6px;color:var(--amber);font-weight:700;font-size:.9rem}
+.paper .link:hover{text-decoration:underline}
+.lib-empty{text-align:center;color:#a9cfcb;padding:40px;font-size:1.05rem}
+
+/* stories */
+.stories{background:var(--sand)}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.story{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .18s,box-shadow .2s}
+.story:hover{transform:translateY(-4px);box-shadow:0 16px 36px #12595e12}
+.story .sbanner{height:90px;background:linear-gradient(135deg,var(--teal-500),var(--teal-700));position:relative}
+.story .avatar{position:absolute;bottom:-26px;right:26px;width:56px;height:56px;border-radius:50%;background:var(--amber);border:4px solid var(--white);display:grid;place-items:center;font-weight:800;color:#3a2a10;font-size:1.2rem}
+.story .sbody{padding:38px 26px 26px}
+.story .sbody p{color:var(--ink);margin-bottom:14px;font-family:'Amiri',serif;font-size:1.08rem;line-height:1.75}
+.story .who{color:var(--muted);font-size:.9rem;font-weight:700}
+
+/* forms */
+.forms{background:var(--white)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.fcard{background:var(--sand);border:1px solid var(--line);border-radius:18px;padding:30px}
+.fcard h3{font-size:1.25rem;font-weight:900;color:var(--teal-900);margin-bottom:6px}
+.fcard p.h{color:var(--muted);font-size:.95rem;margin-bottom:20px}
+label{display:block;font-weight:700;font-size:.88rem;color:var(--teal-900);margin-bottom:7px}
+input,textarea{width:100%;font-family:inherit;font-size:.98rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;background:var(--white);color:var(--ink);margin-bottom:15px;transition:border-color .2s}
+input:focus,textarea:focus{outline:none;border-color:var(--teal-500)}
+textarea{resize:vertical;min-height:100px}
+.btn{background:var(--teal-700);color:#fff;border:none;padding:13px 22px;border-radius:11px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s;width:100%}
+.btn:hover{background:var(--teal-900)}
+.msg{padding:11px 14px;border-radius:10px;font-weight:700;font-size:.92rem;margin-bottom:14px}
+.msg.ok{background:#e5f4ee;color:#1f7a5a;border:1px solid #bfe3d3}
+.msg.bad{background:#fdece9;color:#c2452f;border:1px solid #f3cabf}
+
+/* newsletter */
+.subscribe{background:var(--sand)}
+.sub-box{background:linear-gradient(135deg,var(--teal-700),var(--teal-900));border-radius:24px;padding:52px;text-align:center;color:#eaf4f2}
+.sub-box h3{font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:10px}
+.sub-box p{color:#bfe0dc;margin-bottom:28px;max-width:46ch;margin-inline:auto}
+.sub-form{display:flex;gap:12px;max-width:460px;margin:0 auto;flex-wrap:wrap}
+.sub-form input{flex:1;min-width:220px;margin:0;background:#fff}
+.sub-form button{background:var(--amber);color:#3a2a10;border:none;padding:15px 28px;border-radius:11px;font-weight:800;font-family:inherit;font-size:1rem;cursor:pointer;transition:transform .15s;width:auto}
+.sub-form button:hover{transform:translateY(-2px)}
+.sub-note{color:#bfe0dc;margin-top:16px;font-weight:700;font-size:.95rem;min-height:1.2em}
+
+/* footer */
+footer{background:var(--teal-900);color:#a9cfcb;padding:56px 0 30px;text-align:center}
+.foot-brand{display:inline-flex;align-items:center;gap:11px;font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:14px}
+.foot-brand .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--teal-500),var(--amber));display:grid;place-items:center}
+.foot-bottom{border-top:1px solid #ffffff1a;padding-top:24px;margin-top:24px;font-size:.88rem;color:#7ba9a5}
+
+.loading{text-align:center;padding:60px;color:var(--muted);font-weight:700}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--teal-500);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width:900px){
+  .navlinks{display:none}
+  .type-grid,.story-grid,.form-grid{grid-template-columns:1fr}
+  .hero{padding:70px 0 84px}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+const API = '/api';
+
+// ---- helpers ----
+async function getJSON(path){
+  const r = await fetch(API + path);
+  if(!r.ok) throw new Error('فشل تحميل البيانات');
+  return r.json();
+}
+async function postJSON(path, body){
+  const r = await fetch(API + path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error || 'حدث خطأ');
+  return d;
+}
+
+const REGION_LABELS = {saudi:'سعودي', arab:'عربي', global:'عالمي'};
+const TOPIC_LABELS  = {clinical:'سريري', genetic:'جيني', treatment:'علاج', diagnosis:'تشخيص'};
+const TYPE_LABELS   = {sts:'أنسجة رخوة', rms:'عضلي مخطط', bone:'عظمي'};
+const CAT_LABELS    = {soft:'أنسجة رخوة', bone:'عظام', child:'أطفال'};
+
+// ---- Header ----
+function Header(){
+  return (
+    <header>
+      <div className="wrap nav">
+        <div className="brand">
+          <span className="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-9.03C1.32 9.24 2.4 6 5.5 6c1.9 0 3.1 1.2 3.9 2.4C10.2 7.2 11.4 6 13.3 6c3.1 0 4.18 3.24 2.83 5.97C18.8 16.65 12 21 12 21Z" stroke="#fff" strokeWidth="1.6" fill="#ffffff26"/></svg></span>
+          سند <span className="badge">React</span>
+        </div>
+        <nav className="navlinks">
+          <a href="#types">الأنواع</a>
+          <a href="#library">مكتبة الأبحاث</a>
+          <a href="#stories">قصص</a>
+          <a href="#participate">شارك</a>
+        </nav>
+        <a className="nav-cta" href="#library">تصفّح الأبحاث</a>
+      </div>
+    </header>
+  );
+}
+
+// ---- Hero ----
+function Hero({stats}){
+  return (
+    <section className="hero" style={{paddingBottom:70}}>
+      <div className="wrap">
+        <span className="ribbon"><span className="dot"></span>منصّة توعوية عربية عن سرطان الساركوما</span>
+        <h1>معرفة تُنقذ حياة، و<span className="accent">أبحاث</span> بين يديك</h1>
+        <p className="lead">سند منصّة عربية تجمع التوعية بأنواع الساركوما مع مكتبة أبحاث محدّثة، لدعم المرضى وذويهم والباحثين.</p>
+        <div className="hero-actions">
+          <a href="#library"><button className="btn-primary">استكشف مكتبة الأبحاث</button></a>
+          <a href="#types"><button className="btn-ghost">تعرّف على الأنواع</button></a>
+        </div>
+        <div className="hero-stats">
+          <div className="s"><div className="n">{stats.papers}+</div><div className="l">بحث علمي في المكتبة</div></div>
+          <div className="s"><div className="n">{stats.types}</div><div className="l">نوع من الساركوما موثّق</div></div>
+          <div className="s"><div className="n">{stats.stories}</div><div className="l">قصة ملهمة من ناجين</div></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Types (tabbed) ----
+function TypesSection({types}){
+  const cats = Object.keys(types);
+  const [active, setActive] = useState(cats[0] || '');
+  useEffect(()=>{ if(!active && cats.length) setActive(cats[0]); }, [cats, active]);
+  const cards = types[active] || [];
+  return (
+    <section className="types" id="types">
+      <div className="wrap">
+        <span className="eyebrow">الأنواع</span>
+        <h2 className="sec-title">أنواع الساركوما</h2>
+        <p className="sec-sub">تنقسم الساركوما إلى مجموعات رئيسية. اختر فئة لعرض أنواعها.</p>
+        <div className="type-tabs">
+          {cats.map(c => (
+            <button key={c} className={"ttab" + (c===active?" active":"")} onClick={()=>setActive(c)}>
+              {CAT_LABELS[c] || c}
+            </button>
+          ))}
+        </div>
+        <div className="type-grid">
+          {cards.map(t => (
+            <div className="type-card" key={t.id}>
+              <span className="tag">{t.tag}</span>
+              <h4>{t.h}</h4>
+              <p>{t.p}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Research Library ----
+const REGIONS = ['saudi','arab','global'];
+const TOPICS  = ['clinical','genetic','treatment','diagnosis'];
+const TYPES   = ['sts','rms','bone'];
+
+function Library(){
+  const [q, setQ] = useState('');
+  const [region, setRegion] = useState('');
+  const [topic, setTopic] = useState('');
+  const [type, setType] = useState('');
+  const [sort, setSort] = useState('year');
+  const [papers, setPapers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async ()=>{
+    setLoading(true);
+    const params = new URLSearchParams();
+    if(q) params.set('q', q);
+    if(region) params.set('region', region);
+    if(topic) params.set('topic', topic);
+    if(type) params.set('type', type);
+    if(sort) params.set('sort', sort);
+    try { setPapers(await getJSON('/papers?' + params.toString()) || []); }
+    catch(e){ setPapers([]); }
+    setLoading(false);
+  }, [q, region, topic, type, sort]);
+
+  useEffect(()=>{ const t = setTimeout(load, 250); return ()=>clearTimeout(t); }, [load]);
+
+  const toggle = (val, cur, set) => set(cur===val ? '' : val);
+
+  return (
+    <section className="research" id="library">
+      <div className="wrap">
+        <span className="eyebrow">مكتبة الأبحاث</span>
+        <h2 className="sec-title">أبحاث محدّثة بين يديك</h2>
+        <p className="sec-sub">ابحث وفلتر مئات الأبحاث حسب المنطقة والموضوع والنوع — بيانات حيّة من قاعدة البيانات.</p>
+
+        <div className="lib-controls">
+          <div className="lib-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#7ba9a5" strokeWidth="2"/><path d="m20 20-3-3" stroke="#7ba9a5" strokeWidth="2"/></svg>
+            <input placeholder="ابحث بعنوان البحث أو الكلمات المفتاحية…" value={q} onChange={e=>setQ(e.target.value)}/>
+          </div>
+          <span className="lib-count">{loading ? '...' : `${papers.length} نتيجة`}</span>
+        </div>
+
+        <div className="filter-bank">
+          <div className="filter-group">
+            <span className="fg-label">المنطقة</span>
+            <div className="chips">
+              {REGIONS.map(r => <button key={r} className={"chip"+(region===r?" active":"")} onClick={()=>toggle(r,region,setRegion)}>{REGION_LABELS[r]}</button>)}
+            </div>
+          </div>
+          <div className="filter-group">
+            <span className="fg-label">الموضوع</span>
+            <div className="chips">
+              {TOPICS.map(t => <button key={t} className={"chip"+(topic===t?" active":"")} onClick={()=>toggle(t,topic,setTopic)}>{TOPIC_LABELS[t]}</button>)}
+            </div>
+          </div>
+          <div className="filter-group">
+            <span className="fg-label">النوع</span>
+            <div className="chips">
+              {TYPES.map(t => <button key={t} className={"chip"+(type===t?" active":"")} onClick={()=>toggle(t,type,setType)}>{TYPE_LABELS[t]}</button>)}
+            </div>
+          </div>
+          <div className="filter-group">
+            <span className="fg-label">ترتيب</span>
+            <div className="chips">
+              <button className={"chip"+(sort==='year'?" active":"")} onClick={()=>setSort('year')}>الأحدث</button>
+              <button className={"chip"+(sort==='title'?" active":"")} onClick={()=>setSort('title')}>أبجدي</button>
+            </div>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="lib-empty"><div className="spinner"></div>جارٍ التحميل…</div>
+        ) : papers.length === 0 ? (
+          <div className="lib-empty">لا توجد أبحاث مطابقة لبحثك.</div>
+        ) : (
+          <div className="paper-list">
+            {papers.map(p => (
+              <div className="paper" key={p.id}>
+                <div className="paper-top">
+                  <span className={"pill region-"+p.region}>{REGION_LABELS[p.region]||p.region}</span>
+                  {p.topic && <span className="pill region-arab">{TOPIC_LABELS[p.topic]||p.topic}</span>}
+                  {p.year ? <span className="pill year">{p.year}</span> : null}
+                </div>
+                <h4>{p.title}</h4>
+                {p.authors && <div className="authors">{p.authors}</div>}
+                {p.abs && <div className="abs">{p.abs}</div>}
+                <div className="paper-foot">
+                  <span className="journal">{p.journal || '—'}</span>
+                  {p.url && <a className="link" href={p.url} target="_blank" rel="noopener">قراءة البحث ↗</a>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ---- Stories ----
+function Stories({stories, onSubmitted}){
+  const [f, setF] = useState({Body:'', Who:'', Initial:''});
+  const [msg, setMsg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const submit = async e => {
+    e.preventDefault(); setBusy(true); setMsg(null);
+    try {
+      const d = await postJSON('/stories', f);
+      setMsg({ok:true, text:d.message || 'تم استلام قصتك'});
+      setF({Body:'', Who:'', Initial:''});
+      onSubmitted && onSubmitted();
+    } catch(err){ setMsg({ok:false, text:err.message}); }
+    setBusy(false);
+  };
+  return (
+    <section className="stories" id="stories">
+      <div className="wrap">
+        <span className="eyebrow">قصص</span>
+        <h2 className="sec-title">قصص ملهمة</h2>
+        <p className="sec-sub">تجارب حقيقية من ناجين وذويهم — تُراجَع قبل النشر.</p>
+        <div className="story-grid" style={{marginBottom:44}}>
+          {stories.map(s => (
+            <div className="story" key={s.id}>
+              <div className="sbanner"><div className="avatar">{s.initial || '؟'}</div></div>
+              <div className="sbody">
+                <p>“{s.body}”</p>
+                <div className="who">{s.who}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="fcard" style={{maxWidth:640, margin:'0 auto', background:'var(--white)'}} id="participate">
+          <h3>شاركنا قصتك</h3>
+          <p className="h">قصتك قد تكون سنداً لغيرك. ستُراجَع قبل النشر.</p>
+          {msg && <div className={"msg "+(msg.ok?"ok":"bad")}>{msg.text}</div>}
+          <form onSubmit={submit}>
+            <label>قصتك</label>
+            <textarea required value={f.Body} onChange={e=>setF({...f, Body:e.target.value})} placeholder="اكتب تجربتك هنا…"/>
+            <label>الاسم / التعريف</label>
+            <input value={f.Who} onChange={e=>setF({...f, Who:e.target.value})} placeholder="مثال: منى، ناجية"/>
+            <label>الحرف الأول (للأفاتار)</label>
+            <input maxLength="2" value={f.Initial} onChange={e=>setF({...f, Initial:e.target.value})} placeholder="م"/>
+            <button className="btn" disabled={busy}>{busy?'جارٍ الإرسال…':'إرسال القصة'}</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Suggest paper ----
+function SuggestForm(){
+  const [f, setF] = useState({Title:'', URL:'', Note:'', Email:''});
+  const [msg, setMsg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const submit = async e => {
+    e.preventDefault(); setBusy(true); setMsg(null);
+    try {
+      const d = await postJSON('/papers/suggest', f);
+      setMsg({ok:true, text:d.message || 'تم استلام اقتراحك'});
+      setF({Title:'', URL:'', Note:'', Email:''});
+    } catch(err){ setMsg({ok:false, text:err.message}); }
+    setBusy(false);
+  };
+  return (
+    <div className="fcard">
+      <h3>اقترح بحثاً</h3>
+      <p className="h">تعرف بحثاً مهماً غير موجود؟ اقترحه وسنراجعه.</p>
+      {msg && <div className={"msg "+(msg.ok?"ok":"bad")}>{msg.text}</div>}
+      <form onSubmit={submit}>
+        <label>عنوان البحث</label>
+        <input required value={f.Title} onChange={e=>setF({...f, Title:e.target.value})}/>
+        <label>الرابط</label>
+        <input type="url" value={f.URL} onChange={e=>setF({...f, URL:e.target.value})} placeholder="https://…"/>
+        <label>ملاحظة</label>
+        <textarea value={f.Note} onChange={e=>setF({...f, Note:e.target.value})}/>
+        <label>بريدك (اختياري)</label>
+        <input type="email" value={f.Email} onChange={e=>setF({...f, Email:e.target.value})}/>
+        <button className="btn" disabled={busy}>{busy?'جارٍ الإرسال…':'إرسال الاقتراح'}</button>
+      </form>
+    </div>
+  );
+}
+
+// ---- Subscribe ----
+function Subscribe(){
+  const [email, setEmail] = useState('');
+  const [msg, setMsg] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async e => {
+    e.preventDefault(); setBusy(true); setMsg('');
+    try { const d = await postJSON('/subscribe', {Email:email}); setMsg(d.message || 'تم اشتراكك'); setEmail(''); }
+    catch(err){ setMsg(err.message); }
+    setBusy(false);
+  };
+  return (
+    <section className="subscribe">
+      <div className="wrap">
+        <div className="sub-box">
+          <h3>ابقَ على اطّلاع</h3>
+          <p>اشترك ليصلك جديد الأبحاث والمحتوى التوعوي أولاً بأول.</p>
+          <form className="sub-form" onSubmit={submit}>
+            <input type="email" required placeholder="بريدك الإلكتروني" value={email} onChange={e=>setEmail(e.target.value)}/>
+            <button disabled={busy}>{busy?'...':'اشترك'}</button>
+          </form>
+          {msg && <div className="sub-note">{msg}</div>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Participate (forms) ----
+function Participate(){
+  return (
+    <section className="forms">
+      <div className="wrap">
+        <span className="eyebrow">شارك</span>
+        <h2 className="sec-title">ساهم في إثراء المحتوى</h2>
+        <p className="sec-sub">اقترح بحثاً ليضاف للمكتبة بعد المراجعة.</p>
+        <div className="form-grid" style={{gridTemplateColumns:'1fr'}}>
+          <SuggestForm/>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Footer ----
+function Footer(){
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="foot-brand">
+          <span className="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-9.03C1.32 9.24 2.4 6 5.5 6c1.9 0 3.1 1.2 3.9 2.4C10.2 7.2 11.4 6 13.3 6c3.1 0 4.18 3.24 2.83 5.97C18.8 16.65 12 21 12 21Z" stroke="#fff" strokeWidth="1.6" fill="#ffffff26"/></svg></span>
+          سند الساركوما
+        </div>
+        <div className="foot-bottom">
+          © 2026 سند — منصّة توعوية عربية. نسخة React تتصل بواجهة برمجة التطبيقات (API).
+          <br/>
+          <a href="admin.html" style={{color:'var(--amber)', fontWeight:700, display:'inline-flex', alignItems:'center', gap:6, marginTop:10}}>
+            ⚙️ لوحة الأدمن
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ---- App ----
+function App(){
+  const [types, setTypes] = useState({});
+  const [stories, setStories] = useState([]);
+  const [papersCount, setPapersCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadStories = useCallback(async ()=>{
+    try { setStories(await getJSON('/stories') || []); } catch(e){}
+  }, []);
+
+  useEffect(()=>{
+    (async ()=>{
+      try {
+        const [t, s, p] = await Promise.all([getJSON('/types'), getJSON('/stories'), getJSON('/papers')]);
+        setTypes(t || {}); setStories(s || []); setPapersCount((p||[]).length);
+      } catch(e){ setError('تعذّر الاتصال بالخادم — تأكد أن الباك-إند يعمل على http://localhost:8080'); }
+      setLoading(false);
+    })();
+  }, []);
+
+  if(loading) return <div className="loading"><div className="spinner"></div>جارٍ تحميل سند…</div>;
+  if(error)  return <div className="loading" style={{color:'var(--coral)'}}>{error}</div>;
+
+  const typesCount = Object.values(types).reduce((n,arr)=>n+arr.length, 0);
+
+  return (
+    <React.Fragment>
+      <Header/>
+      <Hero stats={{papers:papersCount, types:typesCount, stories:stories.length}}/>
+      <TypesSection types={types}/>
+      <Library/>
+      <Stories stories={stories} onSubmitted={loadStories}/>
+      <Participate/>
+      <Subscribe/>
+      <Footer/>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

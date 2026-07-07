@@ -1,0 +1,7 @@
+mobile/
+**/*.db
+**/*.db-journal
+.git/
+*.exe
+mobile/build/
+mobile/.dart_tool/
